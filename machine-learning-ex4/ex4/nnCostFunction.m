@@ -61,20 +61,24 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
+y_space = eye(num_labels);
+Xplus = [ones(m,1) X];
+for ix = 1:m
+% Calculate Cost Function:
+   z_2 = Theta1 * Xplus(ix,:)';
+   a_2 = [1; sigmoid(z_2)];
+   z_3 = Theta2 * a_2;
+   a_3 = sigmoid(Theta2 * a_2)
+   h_ix = a_3
+   y_ix = y_space(y(ix),:);
+   J = J + (-y_ix * log(h_ix) - (1-y_ix) * log(1-h_ix));
 
+% Calculate Gradient:
 
+endfor
+J = J/m;
 
-
-
-
-
-
-
-
-
-
-
-
+J = J + lambda/(2*m)*(sum(sum(Theta1(:,2:end).^2)) + sum(sum(Theta2(:,2:end).^2)));
 
 
 
