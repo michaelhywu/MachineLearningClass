@@ -65,23 +65,27 @@ y_space = eye(num_labels);
 Xplus = [ones(m,1) X];
 for ix = 1:m
 % Calculate Cost Function:
-   z_2 = Theta1 * Xplus(ix,:)';
+   a_1 = Xplus(ix,:)';
+   z_2 = Theta1 * a_1;
    a_2 = [1; sigmoid(z_2)];
    z_3 = Theta2 * a_2;
-   a_3 = sigmoid(Theta2 * a_2)
-   h_ix = a_3
+   a_3 = sigmoid(Theta2 * a_2);
+   h_ix = a_3;
    y_ix = y_space(y(ix),:);
    J = J + (-y_ix * log(h_ix) - (1-y_ix) * log(1-h_ix));
 
 % Calculate Gradient:
-
+   delta_3 = a_3 - y_ix';
+   delta_2 = (Theta2'*delta_3)(2:end,:) .* sigmoidGradient(z_2);
+   Theta1_grad = Theta1_grad + delta_2 * a_1';
+   Theta2_grad = Theta2_grad + delta_3 * a_2';
 endfor
 J = J/m;
 
 J = J + lambda/(2*m)*(sum(sum(Theta1(:,2:end).^2)) + sum(sum(Theta2(:,2:end).^2)));
 
-
-
+Theta1_grad = Theta1_grad/m + lambda/m*[zeros(size(Theta1,1),1) Theta1(:,2:end)];
+Theta2_grad = Theta2_grad/m + lambda/m*[zeros(size(Theta2,1),1) Theta2(:,2:end)];
 
 
 % -------------------------------------------------------------
